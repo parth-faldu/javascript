@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: cursive;
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    background: black;
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+    width: 40rem;
+    height: 43rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+}
+
+.weather_search {
+    position: relative;
+}
+
+form {
+    position: relative;
+}
+
+form i {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    color: white;
+}
+
+input {
+    border-radius: 4px;
+    padding: 0.5rem 2.5rem;
+    background: black;
+    color: white;
+    border: none;
+}
+
+input::placeholder {
+    color: white;
+}
+
+.weather_body {
+    margin-top: 5rem;
+    text-align: center;
+}
+
+.forecast {
+    display: inline-block;
+    padding: 0.5rem 0.9rem;
+    border-radius: 50px;
+    margin-top: 1.5rem;
+    background: black;
+    color: white;
+}
+
+.info {
+    display: grid;
+    margin-top: 5rem;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card {
+    padding: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    justify-content: unset;
+}
+
+.card i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.icon img {
+    width: 100px;
+    height: 100px;
+    -webkit-filter: drop-shadow(2px 3px 6px black);
+}
+
+.min_max {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+@media screen and (max-width:400px) {
+    .container {
+        width: 20rem;
+        height: 35rem;
+    }
+    .weather_body {
+        margin-top: 2rem;
+    }
+    form i {
+        top: 8px;
+        left: 9px;
+    }
+    h1{
+        font-size: 1rem;
+    }
+    .date_time{
+        margin-top: 0.5rem;
+    }
+    .forecast{
+        padding: 0.1rem 0.5rem;
+        margin-top: 1rem;
+    }
+    .icon img {
+        width: 80px;
+        width: 80px;
+    }
+    .temperature
+    .date_time,
+    .min_max{
+        font-size: 0.9rem
+    }
+    .info {
+        margin-top: 3rem;
+    }
+    .card{
+        font-size: 0.8rem;
+    }
+    .card i {
+        font-size: 1.1rem;
+        margin-left: 1rem;
+    }
+    .min_max{
+        column-gap: 1rem;
+    }
+}

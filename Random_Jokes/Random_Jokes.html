@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Jokes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: cursive;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 7px;
+            width: 30rem;
+            height: 10rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-left: thick solid;
+        }
+
+        body {
+            background: #5d5d5d;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            row-gap: 5rem;
+        }
+
+        button {
+            width: 12rem;
+            height: 4rem;
+            border-radius: 50px;
+            font-size: 1.8rem;
+            border: thick solid;
+        }
+
+        button:hover {
+            border: thick double;
+        }
+
+        @media screen and (max-width:400px) {
+            *{
+                font-family: sans-serif;
+            }
+            .container {
+                width: 21rem;
+                height: 7rem;
+                font-size: 0.9rem;
+            }
+            button {
+                width: 11rem;
+                height: 4rem;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex">
+
+    <button id="btn">Get Joke</button>
+
+    <div class="container flex"></div>
+
+    <script>
+
+        let button = document.getElementById('btn');
+        let container = document.querySelector('.container');
+        let APIURL = "https://icanhazdadjoke.com/";
+
+        const FetchData = async () => {
+            const result = await fetch(APIURL, {
+                headers: {
+                    Accept: "application/json"
+                },
+            });
+
+            const data = await result.json();
+            container.innerHTML = data.joke;
+        }
+
+        FetchData();
+
+        button.addEventListener('click', FetchData);
+    </script>
+</body>
+
+</html>

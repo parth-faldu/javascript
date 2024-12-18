@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Colors</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: cursive;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            height: 500px;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 500px;
+        }
+
+        button {
+            border-radius: 50px;
+            background-color: #e2e708;
+            width: 150px;
+            height: 50px;
+            box-shadow: 4px 5px 15px 0px #000000;
+            font-size: 20px;
+            border: none;
+        }
+
+        #title {
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #property {
+            margin-top: 30px;
+            border: 1px solid rgb(227, 208, 195);
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-left: 4px solid white;
+            color: aliceblue;
+        }
+
+        /* responsive for mobiles */
+        @media screen and (max-width:400px) {
+            *{
+                font-family: sans-serif;
+            }
+            .container,.buttons{
+                width: 300px;
+            }
+            button{
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="buttons">
+            <button id="b1">#000000</button>
+            <button id="b2">#000000</button>
+        </div>
+        <div class="copycode">
+            <p id="title">click on property to copy</p>
+
+            <p id="property">
+                background-image: linear-gradient(to right,#000000,#000000);
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let b1 = document.getElementById("b1");
+        let b2 = document.getElementById("b2");
+        let property = document.getElementById('property');
+
+        let color_generate = () => {
+            let hexvalue = "1234567890abcdef";
+            let color = "#";
+
+            for (let i = 0; i < 6; i++) {
+                color += hexvalue[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        };
+
+        let color1 = "#000000";
+        let color2 = "#000000";
+
+        const b1_color_change = () => {
+            color1 = color_generate();
+
+            b1.textContent = color1;
+
+            document.body.style.backgroundImage = `linear-gradient(to right,${color1},${color2})`;
+            b1.style.backgroundColor = color1;
+            property.textContent = `background-image:linear-gradient(to right,${color1},${color2})`;
+        };
+
+        const b2_color_change = () => {
+            color2 = color_generate();
+
+            b2.textContent = color2;
+
+            document.body.style.backgroundImage = `linear-gradient(to right,${color1},${color2})`;
+            b2.style.backgroundColor = color2;
+            property.textContent = `background-image:linear-gradient(to right,${color1},${color2})`;
+        };
+
+        b1.addEventListener('click', b1_color_change);
+        b2.addEventListener('click', b2_color_change);
+
+        property.addEventListener('click', () => {
+            navigator.clipboard.writeText(property.textContent);
+            alert('property copied');
+        });
+
+    </script>
+</body>
+
+</html>

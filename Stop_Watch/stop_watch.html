@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: #4b4b4b;
+            flex-direction: column;
+        }
+
+        .watch {
+            width: 30rem;
+            height: 30rem;
+            flex-direction: column;
+            border-radius: 20px;
+            background: #a7a7a7;
+            position: relative;
+            box-shadow: 0px 3px 20px 5px #4b4b4b;
+        }
+
+        .rotate-colors {
+            animation: rotate-colors 2.5s infinite linear;
+        }
+
+        @keyframes rotate-colors {
+            0% {
+                box-shadow: 0px 3px 20px 5px #ff0000, 0px 3px 20px 10px #00ff00, 0px 3px 20px 15px #0000ff;
+            }
+
+            33% {
+                box-shadow: 0px 3px 20px 5px #00ff00, 0px 3px 20px 10px #0000ff, 0px 3px 20px 15px #ff0000;
+            }
+
+            66% {
+                box-shadow: 0px 3px 20px 5px #0000ff, 0px 3px 20px 10px #ff0000, 0px 3px 20px 15px #00ff00;
+            }
+
+            100% {
+                box-shadow: 0px 3px 20px 5px #ff0000, 0px 3px 20px 10px #00ff00, 0px 3px 20px 15px #0000ff;
+            }
+        }
+
+        .timer {
+            width: 100%;
+            height: 50%;
+            font-size: 5rem;
+            font-family: sans-serif;
+        }
+
+        .detail {
+            display: grid;
+            grid-template-columns: auto auto;
+            width: 100%;
+            height: 50%;
+            margin-left: 14rem;
+        }
+
+        i,
+        i:hover {
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        p {
+            font-size: 2rem;
+            font-family: cursive;
+            width: 100%;
+            color: #9b9ca3;
+        }
+
+        .Flags {
+            width: 100%;
+            width: 50%;
+            flex-direction: column;
+            padding-bottom: 1rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .delete {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .fa-trash {
+            position: absolute;
+            border-radius: 50%;
+            padding: .5rem;
+            background: #a7a7a7;
+        }
+
+        @media screen and (max-width:400px) {
+            .watch {
+                width: 20rem;
+                height: 20rem;
+            }
+
+            .detail {
+                margin-left: 9rem;
+            }
+
+            .timer {
+                font-size: 3rem;
+            }
+
+            i {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="flex">
+    <div class="watch flex">
+        <div class="timer flex">00 : 00</div>
+        <div class="detail">
+            <div class="play">
+                <i class="fa-solid fa-play"></i>
+            </div>
+            <div class="pause">
+                <i class="fa-solid fa-pause"></i>
+            </div>
+            <div class="undo">
+                <i class="fas fa-undo"></i>
+            </div>
+            <div class="flag">
+                <i class="fa-solid fa-flag"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="Flags flex"></div>
+
+    <script>
+        let play = document.querySelector('.fa-play');
+        let pause = document.querySelector('.fa-pause');
+        let undo = document.querySelector('.fa-undo');
+        let flag = document.querySelector('.fa-flag');
+        let Flags = document.querySelector('.Flags');
+        let timer = document.querySelector('.timer');
+        let watch = document.querySelector('.watch');
+        let setid;
+        let minute = 0;
+        let count = 0;
+        let i = 1;
+
+        const start = () => {
+            if (!setid) {
+                // Add the rotate-colors class to start the animation
+                watch.classList.add('rotate-colors');
+
+                setid = setInterval(() => {
+                    if (count == 60) {
+                        ++minute;
+                        count = 0;
+                    }
+                    if (count <= 9) {
+                        if (minute <= 9) {
+                            timer.innerHTML = `0${minute} : 0${count++}`;
+                        } else {
+                            timer.innerHTML = `${minute} : 0${count++}`;
+                        }
+                    } else {
+                        if (minute <= 9) {
+                            timer.innerHTML = `0${minute} : ${count++}`;
+                        } else {
+                            timer.innerHTML = `${minute} : ${count++}`;
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        play.addEventListener('click', start);
+
+        pause.addEventListener('click', () => {
+            clearInterval(setid);
+            setid = null;
+            // Remove the rotate-colors class to stop the animation
+            watch.classList.remove('rotate-colors');
+        });
+
+        undo.addEventListener('click', () => {
+            clearInterval(setid);
+            setid = null;
+            timer.textContent = `00 : 00`;
+            count = 0;
+            minute = 0;
+            // Remove the rotate-colors class to stop the animation
+            watch.classList.remove('rotate-colors');
+        });
+
+        flag.addEventListener('click', () => {
+            if (Flags.innerHTML == '') {
+                let delElem = document.createElement('div');
+                delElem.classList.add('delete');
+                delElem.classList.add('flex');
+                delElem.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                Flags.append(delElem);
+
+                delElem.addEventListener('click', () => {
+                    Flags.innerHTML = '';
+                    i = 1;
+                });
+            }
+
+            let flagtext = document.createElement('p');
+            flagtext.classList.add('flex');
+            flagtext.innerHTML = `#${i++} - ${timer.textContent}`;
+            Flags.append(flagtext);
+        });
+    </script>
+</body>
+
+</html>

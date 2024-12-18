@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background: #000;
+            color: white;
+            font-family: cursive;
+        }
+        .clock {
+            position: relative;
+            border: 5px solid white;
+            border-radius: 100%;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+        }
+
+        .indicators {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .hours-con{
+            position: absolute;
+            transform-origin: 50% 250px;
+            transform: rotate(calc(var(--h) * 30deg));
+        }
+        .center{
+            position: absolute;
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            background: white;
+            opacity: .5;
+        }
+        .second,
+        .minute,
+        .hour {
+            position: absolute;
+            border: 3px solid red;
+            background: red;
+            border-radius: 50px;
+            height: 80%;
+            mask: linear-gradient(0deg, transparent 50%, red 100%);
+            z-index: 2;
+        }
+        .minute{
+            border: 3px solid white;
+            background: white;
+            mask: linear-gradient(0deg, transparent 50%, white 100%);
+            z-index: 1;
+        }
+        .hour {
+            border: 3px solid cyan;
+            background: cyan;
+            mask: linear-gradient(0deg, transparent 50%, cyan 100%);
+            height: 60%;
+            z-index: 0;
+        }
+        .hours{
+            transform: rotate(calc( 360deg - var(--hh) * 30deg));
+        }
+
+        /* responsive for mobile */
+        @media screen and (max-width:400px) {
+            .clock{
+                width: 300px;
+                height: 300px;
+            }
+            .hours-con{
+                transform-origin: 50% 150px;
+            }
+            *{
+                font-family: sans-serif;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock" id="clock">
+
+        <div class="indicators">
+            <div class="hours-con" style="--h: 1;"><div class="hours" style="--hh: 1;">1</div></div>
+            <div class="hours-con" style="--h: 2;"><div class="hours" style="--hh: 2;">2</div></div>
+            <div class="hours-con" style="--h: 3;"><div class="hours" style="--hh: 3;">3</div></div>
+            <div class="hours-con" style="--h: 4;"><div class="hours" style="--hh: 4;">4</div></div>
+            <div class="hours-con" style="--h: 5;"><div class="hours" style="--hh: 5;">5</div></div>
+            <div class="hours-con" style="--h: 6;"><div class="hours" style="--hh: 6;">6</div></div>
+            <div class="hours-con" style="--h: 7;"><div class="hours" style="--hh: 7;">7</div></div>
+            <div class="hours-con" style="--h: 8;"><div class="hours" style="--hh: 8;">8</div></div>
+            <div class="hours-con" style="--h: 9;"><div class="hours" style="--hh: 9;">9</div></div>
+            <div class="hours-con" style="--h: 10;"><div class="hours" style="--hh: 10;">10</div></div>
+            <div class="hours-con" style="--h: 11;"><div class="hours" style="--hh: 11;">11</div></div>
+            <div class="hours-con" style="--h: 12;"><div class="hours" style="--hh: 12;">12</div></div>
+        </div>
+
+        <div class="center"></div>
+        <div class="second" id="second"></div>
+        <div class="minute" id="minute"></div>
+        <div class="hour" id="hour"></div>
+    </div>
+
+    <script>
+        function Clock() {
+            const date = new Date();
+
+            // Get current hour, minute, and second
+            const hour = date.getHours();
+            const minute = date.getMinutes();
+            const seconds = date.getSeconds();
+
+            // Calculate the angles for the clock hands
+            const SetHourPosition = hour * 30 + (minute / 2); // Add minute effect to hour hand
+            const SetMinPosition = minute * 6;
+            const SetSecPosition = seconds * 6;
+
+            // Update the hand positions
+            document.getElementById('hour').style.transform = `rotate(${SetHourPosition}deg)`;
+            document.getElementById('minute').style.transform = `rotate(${SetMinPosition}deg)`;
+            document.getElementById('second').style.transform = `rotate(${SetSecPosition}deg)`;
+        }
+
+        // Initial call to set the clock immediately
+        Clock();
+
+        // Update the clock every second
+        setInterval(Clock, 1000);
+    </script>
+
+</body>
+
+</html>

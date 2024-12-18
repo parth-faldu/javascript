@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: cursive;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            row-gap: 20px;
+            width: 100vw;
+            height: 100vh;
+            background-color: #acabab;
+        }
+
+        h1 {
+            background-color: #2c2d35;
+            padding: 20px 0px;
+            color: white;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+        }
+
+        .todolist {
+            display: flex;
+            flex-direction: column;
+            margin: 50px 0px 0px 0px;
+            width: 500px;
+            padding-right: 2px;
+        }
+
+        #addbtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+            border: 2px solid #2c2d35;
+        }
+
+        #addbtn:hover {
+            background-color: #2c2d35;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            width: 500px;
+            border: 1px solid silver;
+            border-radius: 5px;
+        }
+
+        input {
+            padding: 10px 250px 10px 20px;
+            border-radius: 50px;
+            border: none;
+        }
+
+        .delbtn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50px;
+            margin: 0px 10px 0px 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #2c2d35;
+        }
+
+        .delbtn:hover {
+            background-color: #2c2d35;
+        }
+
+        .Task-text {
+            padding: 10px 10px;
+        }
+
+        /* responsive for mobiles */
+        @media screen and (max-width:400px) {
+            * {
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            input {
+                padding: 10px 120px 10px 20px;
+            }
+
+            .todolist {
+                width: 300px;
+            }
+
+            .task {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ToDos</h1> <br>
+
+    <form>
+        <input id="inputfield" type="text" placeholder="Task" required>
+        <button type="submit" id="addbtn">➕</button>
+    </form>
+
+    <div class="todolist"></div>
+
+
+    <script>
+        let inputfield = document.getElementById("inputfield");
+        let todolist = document.querySelector(".todolist");
+        let addbtn = document.getElementById("addbtn");
+
+        let localtodolist = JSON.parse(localStorage.getItem('todolist')) || [];
+
+        const addtasks = (taskstext) => {
+
+            if (!localtodolist.includes(inputfield.value.trim())) {
+
+                let task = document.createElement("div");
+                task.className = "task";
+
+                let delbtn = document.createElement("button");
+                delbtn.className = "delbtn";
+                delbtn.textContent = "➖";
+                task.append(delbtn);
+
+                let p = document.createElement("p");
+                p.className = "Task-text";
+                p.textContent = taskstext;
+                task.append(p);
+
+                todolist.append(task);
+
+                todolist.style.border = "2px solid #2c2d35";
+                todolist.style.borderRadius = "5px";
+
+                //add data to local storage
+                localtodolist.push(taskstext);
+                localtodolist = [... new Set(localtodolist)];
+                localStorage.setItem('todolist', JSON.stringify(localtodolist));
+
+                //remove tasks from webpage
+                delbtn.addEventListener("click", (event) => {
+                    task.remove();
+
+                    if (todolist.innerHTML == "") {
+                        todolist.style.border = "none";
+                        todolist.style.borderRadius = "none";
+                    }
+
+                    const TaskToRemove = event.target.nextElementSibling.innerText;
+
+                    localtodolist = localtodolist.filter((Task) => {
+                        return Task != TaskToRemove;
+                    });
+                    localStorage.setItem('todolist', JSON.stringify(localtodolist));
+
+                });
+            }
+            inputfield.value = "";
+        };
+
+        addbtn.addEventListener("click", (event) => {
+
+            let inputvalue = inputfield.value;
+
+            if (inputvalue.trim() === "") {
+                return;
+            }
+            else {
+                event.preventDefault();
+
+                //add task to webpage and local storage
+                addtasks(inputvalue);
+            }
+        });
+
+        const gettasks = () => {
+            localtodolist.forEach(task => {
+                addtasks(task);
+            });
+        };
+
+        //get task from local storage
+        gettasks();
+
+    </script>
+</body>
+
+</html>
